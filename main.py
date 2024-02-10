@@ -1,8 +1,11 @@
-from characterai import PyCAI
 import os
+from playsound import playsound
+from gtts import gTTS
+from characterai import PyCAI
+import speech_recognition as sr
 
 client = PyCAI(os.environ['CharacterAI'])
-
+said = ''
 #Characters
 Yukana_Yame = 't37V6MiLGyUynkHZo-m49MVz4YDyY89Mjmm2DSg8aPo'
 Two_B       = 'csTC3hw0Fnj1Whnl0uV1Nb3_oYIillMQtdBH5NEl0Gs'
@@ -19,18 +22,27 @@ def InitializeChat(chat):
         tgt = participants[1]['user']['username']
 
     while True:
+        r = sr.Recognizer()
+        with sr.Microphone(device_index=1) as source:
+            print("SPEAK NOW", end='\n')
+            audio = r.listen(source)
+
+            try:
+                said = r.recognize_google(audio)
+                print(said)
+            except Exception as e:
+                print(f"speak ERROR: {e}")
+
         print('\n')
-        message = input('You: ')
+        message = str(said)
         data = client.chat.send_message(chat['external_id'], tgt, message) 
         name = data['src_char']['participant']['name']
         text = data['replies'][0]['text']
         print('\n')
         print(f"{name}: {text}",end='\n')
-
 try:
-    char = Assistant
-    chat = client.chat.get_chat(char)
-
+    chat = client.chat.get_chat(Rias)
     InitializeChat(chat)
+
 except Exception as e:
     print(f"ERROR: {e}")
