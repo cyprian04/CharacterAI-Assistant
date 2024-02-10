@@ -1,4 +1,5 @@
 import os
+import time
 from playsound import playsound
 from gtts import gTTS
 from characterai import PyCAI
@@ -40,8 +41,13 @@ def InitializeChat(chat):
         text = data['replies'][0]['text']
         print('\n')
         print(f"{name}: {text}",end='\n')
+        speech = gTTS(text=text, lang='en',slow=False, tld='com.au')
+        speech.save("welcome.mp3")
+        playsound("welcome.mp3")
+        time.sleep(10)
+        
 try:
-    chat = client.chat.get_chat(Rias)
+    chat = client.chat.get_chat(Assistant)
     InitializeChat(chat)
 
 except Exception as e:
