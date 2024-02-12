@@ -16,6 +16,7 @@ Assistant   = 'YntB_ZeqRq2l_aVf2gWDCZl4oBttQzDvhj9cXafWcF8'
 Rias        = '_kvcCUxfU5zVA00JZLtpYm0LIHSVXjchcYNwlNAh9cs'
 
 def play_sound_with_vlc(text):
+
     speech = gTTS(text=text, lang='en', slow=False, tld='com.au')
     speech.save("welcome.mp3")
 
@@ -45,6 +46,7 @@ def initialize_chat(chat):
         tgt = participants[1]['user']['username']
 
     while True:
+        print(input("If you want to say, press enter"), end='\n')
         r = sr.Recognizer()
         with sr.Microphone(device_index=1) as source:
             print("SPEAK NOW", end='\n')
@@ -61,7 +63,6 @@ def initialize_chat(chat):
         data = client.chat.send_message(chat['external_id'], tgt, message)
         name = data['src_char']['participant']['name']
         text = data['replies'][0]['text']
-        print('\n')
         print(f"{name}: {text}", end='\n')
         play_sound_with_vlc(text)
 
