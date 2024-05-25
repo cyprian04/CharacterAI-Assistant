@@ -9,24 +9,20 @@ client = PyCAI(os.environ['CharacterAI'])
 said = ''
 
 #Characters
-Yukana_Yame = 't37V6MiLGyUynkHZo-m49MVz4YDyY89Mjmm2DSg8aPo'
-Two_B       = 'csTC3hw0Fnj1Whnl0uV1Nb3_oYIillMQtdBH5NEl0Gs'
-Nami        = 'CPzWLN939JIlyNVKosDwU1Tc2yS3eylbMTqLfHxPYYs'
 Assistant   = 'YntB_ZeqRq2l_aVf2gWDCZl4oBttQzDvhj9cXafWcF8'
-Rias        = '_kvcCUxfU5zVA00JZLtpYm0LIHSVXjchcYNwlNAh9cs'
 
 def play_sound_with_vlc(text):
 
     speech = gTTS(text=text, lang='en', slow=False, tld='com.au')
-    speech.save("welcome.mp3")
+    speech.save("message.mp3")
 
     instance = vlc.Instance("--no-xlib")
     player = instance.media_player_new()
-    media = instance.media_new("welcome.mp3")
+    media = instance.media_new("message.mp3")
     player.set_media(media)
 
     media_list_player = instance.media_list_player_new()
-    media_list = instance.media_list_new(["welcome.mp3"])
+    media_list = instance.media_list_new(["message.mp3"])
     media_list_player.set_media_list(media_list)
     media_list_player.set_media_player(player)
     media_list_player.play()
@@ -59,7 +55,7 @@ def initialize_chat(chat):
                 print(f"speak ERROR: {e}")
 
         print('\n')
-        message = (said)
+        message = str(said)
         data = client.chat.send_message(chat['external_id'], tgt, message)
         name = data['src_char']['participant']['name']
         text = data['replies'][0]['text']
